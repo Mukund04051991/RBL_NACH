@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>DD_MANDATE</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>DemoFileUploadServlet</display-name>
+    <servlet-name>demo</servlet-name>
+    <servlet-class>com.ddmandate.controller.DemoFileUploadServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>
+		</description>
+    <display-name>GetUtilityController</display-name>
+    <servlet-name>GetUtilityController</servlet-name>
+    <servlet-class>com.ddmandate.controller.GetUtilityController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>demo</servlet-name>
+    <url-pattern>/demo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetUtilityController</servlet-name>
+    <url-pattern>/GetUtilityController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description>
+		</description>
+    <display-name>SponsorMandateController</display-name>
+    <servlet-name>SponsorMandateController</servlet-name>
+    <servlet-class>com.ddmandate.controller.SponsorMandateController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SponsorMandateController</servlet-name>
+    <url-pattern>/SponsorMandateController</url-pattern>
+  </servlet-mapping>
+</web-app>
