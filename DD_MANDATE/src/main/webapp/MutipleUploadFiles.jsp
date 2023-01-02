@@ -105,18 +105,16 @@ $("#input-folder-3")
 </head>
 <body>
 
-<label for="input-folder-3">Select files/folders</label>
+<label for="input-folder-3">Select file`s/folders</label>
 <div class="file-loading">
     <input id="input-folder-3" name="input-folder-3[]" type="file" multiple>
 </div>
 <script>
-$(document).ready(function() {
-    $("#input-folder-3").fileinput({
-        uploadUrl: "ImagesUploadServlet",
+$(document).ready(function() {]et",
         hideThumbnailContent: true // hide image, pdf, text or other content in the thumbnail preview
     });
 });
 </script>
-
+<!-- END -->
 </body>
 </html>

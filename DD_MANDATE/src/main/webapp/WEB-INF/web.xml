@@ -41,4 +41,31 @@
     <servlet-name>SponsorMandateController</servlet-name>
     <url-pattern>/SponsorMandateController</url-pattern>
   </servlet-mapping>
+  <!-- Ganesh Added on 27122022 -->
+  <description></description>
+    <servlet>
+    <description></description>
+    <display-name>ImageFileUploadServlet</display-name>
+    <servlet-name>ImageFileUploadServlet</servlet-name>
+    <servlet-class>com.ddmandate.controller.ImageFileUploadServlet</servlet-class>
+  </servlet>   
+    
+  <servlet-mapping>
+    <servlet-name>ImageFileUploadServlet</servlet-name>
+    <url-pattern>/ImageFileUploadServlet</url-pattern>
+  </servlet-mapping> 
+  
+  <!-- Ganesh Added on 29122022 -->
+   <servlet>
+    <description></description>
+    <display-name>CancelBulkUploadController</display-name>
+    <servlet-name>CancelBulkUploadController</servlet-name>
+    <servlet-class>com.ddmandate.controller.CancelBulkUploadController</servlet-class>
+  </servlet>   
+    
+  <servlet-mapping>
+    <servlet-name>CancelBulkUploadController</servlet-name>
+    <url-pattern>/CancelBulkUploadController</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

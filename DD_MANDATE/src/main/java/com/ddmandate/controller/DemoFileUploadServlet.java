@@ -71,23 +71,7 @@ public class DemoFileUploadServlet extends HttpServlet {
 						name = new File(item.getName()).getName();
 						item.write(new File(UPLOAD_DIRECTORY + File.separator + name));
 						System.out.println("name:" + name + "fname:" + item.getName());
-					} else {
-						System.out.println("3");
-						String otherFieldName = item.getFieldName();
-						value = item.getString();
-						System.out.println("otherFieldName:" + otherFieldName);
-						System.out.println("value:" + value);
-
-						if (otherFieldName.equals("utility_name")) {
-							utility_name = value;
-						} else if (otherFieldName.equals("utility_code")) {
-							utility_code = value;
-						} else if (otherFieldName.equals("email_id")) {
-							email_id = value;
-						}
-						System.out.println("utility_name:" + utility_name);
-						System.out.println("utility_code:" + utility_code);
-					}
+					} 
 
 				}
 				/*
