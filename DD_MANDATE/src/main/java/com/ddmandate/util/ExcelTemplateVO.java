@@ -5,11 +5,30 @@ public class ExcelTemplateVO {
 	private String UTILITYCODE;
 	private String TRANSACTIONTYPE;
 	private String SETTLEMENTDATE;
+	public String getUTILITY_CODE() {
+		return UTILITY_CODE;
+	}
+
+	public void setUTILITY_CODE(String uTILITY_CODE) {
+		UTILITY_CODE = uTILITY_CODE;
+	}
+
 	private String BENEFICIARYACHOLDERNAME;
 	private String AMOUNT;
 	private String BENEFICIARYACNO;
 	private String UMRN;
 	private String SRNO;
+	private String CANCELLATION_CODE;
+    private String UTILITY_CODE;
+	
+	
+	public String getCANCELLATION_CODE() {
+		return CANCELLATION_CODE;
+	}
+
+	public void setCANCELLATION_CODE(String cANCELLATION_CODE) {
+		CANCELLATION_CODE = cANCELLATION_CODE;
+	}
 
 	public String getUTILITYCODE() {
 		return UTILITYCODE;
@@ -462,6 +481,8 @@ public class ExcelTemplateVO {
 	public void setSTATUS_CODE(String sTATUS_CODE) {
 		STATUS_CODE = sTATUS_CODE;
 	}
+
+	
 
 	
 	
