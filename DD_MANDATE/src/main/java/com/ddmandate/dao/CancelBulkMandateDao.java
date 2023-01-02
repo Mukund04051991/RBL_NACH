@@ -4,21 +4,44 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import com.ddmandate.util.ExcelTemplateVO;
 
 public class CancelBulkMandateDao {
 
 	
-	
+	public static Connection getConnection() {
+
+		ResourceBundle rbDB = ResourceBundle.getBundle("DB");
+		String DRIVER = rbDB.getString("DRIVER");
+		String CONN = rbDB.getString("CONN");
+		String IP = rbDB.getString("IP");
+		String PORT = rbDB.getString("PORT");
+		String DBNAME = rbDB.getString("DBNAME");
+		String USERNAME = rbDB.getString("USERNAME");
+		String PASSWORD = rbDB.getString("PASSWORD");
+		Connection con = null;
+		try {
+			Class.forName(DRIVER);
+			con = DriverManager.getConnection(CONN + IP + PORT + DBNAME, USERNAME, PASSWORD);
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+		return con;
+	}
 	
 	public boolean checkFileExist(String name) {
-		Connection con = ACHSponsorDao.getConnection();
+		Connection con = CancelBulkMandateDao.getConnection();
 		boolean isExist = false;
 		try {
 
@@ -48,15 +71,9 @@ public class CancelBulkMandateDao {
 			ArrayList<ExcelTemplateVO> txnList) {
 		boolean upload_filestatus = false;
 		System.out.println("<<< uploadFileDatils >>>");
-		Connection con = ACHSponsorDao.getConnection();
+		Connection con = CancelBulkMandateDao.getConnection();
 
 		FileInputStream fin = null;
-		/* String settlementDate = ""; */
-		/*
-		 * settlementDate = txnList.get(0).getSETTLEMENTDATE();
-		 * System.out.println("settlement_date(valid file):" + settlementDate);
-		 */
-
 		try {
 			fin = new FileInputStream(filePath + File.separator + filename);
 		} catch (FileNotFoundException e1) {
@@ -118,62 +135,74 @@ public class CancelBulkMandateDao {
 	
 	
 	//UMRN logic
-	public static boolean insertexcelFileRecords(ArrayList<ExcelTemplateVO> txnList, String filename,String headerLine) {
-		System.out.println("headerLine:" + headerLine);
+	public static boolean insertexcelFileRecords(ArrayList<ExcelTemplateVO> txnList, String filename,String headerLine) throws SQLException {
+		
+		
 		boolean status = false;
 		String file_id = getTransactionFileId(filename);
-		Connection con = ACHSponsorDao.getConnection();
-		int count = 0;
-		int batchSize = 20;
+		Connection con = CancelBulkMandateDao.getConnection();
 		
-        if (headerLine.trim().equals("UTILITY_CODE|UMRN|CANCELLATION_CODE")) {
-			try {
+        System.out.println("Inside the insertexcelFileRecords");
 				con.setAutoCommit(false);
-				
-				
-				//query = "insert into nach_dd_txn_dr_inp(TXN_SEQ_NO,UTILITY_CODE,SETTLEMENT_DATE,settlement_amount,UMRN,UPLOAD_DATE,FILE_ID,dr_inw_status) values ('DD'|| TO_CHAR(SYSDATE,'DDMMYYYY') ||LPAD(NACH_DD_TXN_SEQ_NO.NEXTVAL,6,'0'),?,?,?,?,sysdate,?,?)";
-				/*
-				 * String query =
-				 * "insert into nach_dd_mms_reg_details(MANDATE_DATE,MANDATE_ID,UMRN,CUST_REF_NO,SCH_REF_NO,CUSTOMER_NAME,BANK,BRANCH,BANK_CODE,ACCOUNT_TYPE"
-				 * + ",ACCOUNT_NUMBER,AMOUNT,\r\n" +
-				 * "FREQUENCY,DEBIT_TYPE,START_DATE,END_DATE,UNTIL_CANCEL,TEL_NO,MOBILE_NUMBER,MAIL_ID,UTILITY_CODE,UTILITY_NAME,STATUS,"
-				 * + "STATUS_CODE) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-				 */
-				
-				String query ="";
-				PreparedStatement pst = con.prepareStatement(query);
-
 				for (com.ddmandate.util.ExcelTemplateVO vo : txnList) {
-
-					//System.out.println("vo.getSETTLEMENTDATE():" + vo.getSETTLEMENTDATE());
-					pst.setString(1, vo.getMANDATE_DATE());// utility code
-					pst.setString(2, vo.getMANDATE_ID());// settlement date
-					pst.setString(3, vo.getUMRN());// amount
+				//UMRN  Available Or Not
+				ResultSet rs = null;
+				String query ="select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =?";
+				System.out.println(query);
+				PreparedStatement pst = con.prepareStatement(query);
+				pst.setString(1, vo.getUMRN());
+				//rs = pst.executeBatch();
+				 //rs = pst.executeQuery();
+				 ResultSet rs2 = pst.executeQuery();
 				
-					count++;
-					pst.addBatch();
+				
+				//Check for already cancel or not
+				String CanStatus ="Cancel";
+				String query2 = "select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =? AND MMS_TYPE=?";
+				PreparedStatement pst1 = con.prepareStatement(query2);
+				pst1.setString(1, vo.getUMRN());// UMRN
+				pst1.setString(2, CanStatus);
+				ResultSet rs1 = pst1.executeQuery();
+				
+				
+				int count = 0;
+				while (rs2.next()) {
+					count = rs2.getInt(1);
 				}
-
-				if (count % batchSize == 0) {
-					pst.executeBatch();
-				}
-				pst.executeBatch();
+				System.out.println("file exist count:" + count);
+				if (count > 0) {
+					rs1.next();
+					System.out.println("rs1.next :->");
+					int y = rs1.getInt(1);
+					
+					System.out.println("y >>>" + y);	
+					
+				if(y > 0) {
+				String updateQry ="UPDATE MMS_OUT_INFO_TMP SET REJECT_REASON ='Already Cancel' WHERE UMRN=?";	
+				PreparedStatement pst2 = con.prepareStatement(updateQry);
+				pst2.setString(1,vo.getUMRN());
+				System.out.println("UMRN"+vo.getUMRN());
+				ResultSet rs3 = pst2.executeQuery();
 				con.commit();
-				status = true;
-				System.out.println("count:" + count);
-				con.close();
-			} catch (Exception e) {
-				// TODO: handle exception
-				e.printStackTrace(System.out);
-				status = false;
-			}
-
+				status =true;
+				
+				} else 
+					  {
+						//already not cancelled so CNV
+					   System.out.println("already not cancelled so CNV");
+						String updateQry ="UPDATE MMS_OUT_INFO_TMP SET REJECT_REASON ='CNV' WHERE UMRN=?";	
+						PreparedStatement pst3 = con.prepareStatement(updateQry);
+						pst3.setString(1,vo.getUMRN());
+						System.out.println("UMRN"+vo.getUMRN());
+						ResultSet rs4 = pst3.executeQuery();
+						con.commit();
+						status =true;
+					  }	
+				} else {
+					System.out.println("UMRN Not Exixt");
+				}
+				
 		}
-		// update header transaction count and amount
-		System.out.println("in txn:" + status);
-		if (status)
-			updateHdrTxnCount(count, file_id);
-
 		return status;
 
 	}

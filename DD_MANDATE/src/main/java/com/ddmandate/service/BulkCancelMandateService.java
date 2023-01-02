@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +61,7 @@ public class BulkCancelMandateService {
 
 	}
 
-		public int uploadFileData(String inputFilePath, String filePath, String utility_code, String filename, String uMRN, String cancellation_code) throws NumberFormatException, SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		public int uploadFileData(String inputFilePath, String filePath, String utility_code, String filename, String uMRN, String cancellation_code) throws NumberFormatException, SecurityException, NoSuchMethodException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, SQLException {
 		int upload_status = 0;
 		System.out.println("inputFilePath:" + inputFilePath);
 		
@@ -143,9 +144,11 @@ public class BulkCancelMandateService {
 									upload_status = 1;
 									boolean insert_status = CancelBulkMandateDao.insertexcelFileRecords(txnList, filename, header);
 									System.out.println("insert_status:"+insert_status);
+									//insert_status =true;
 									if (insert_status) {
 										upload_status = 1;
 									} else {
+										System.out.println("CancelBulkMandateDao.deleteDDFile");
 										CancelBulkMandateDao.deleteDDFile(filename);
 										upload_status = 9;
 									}
