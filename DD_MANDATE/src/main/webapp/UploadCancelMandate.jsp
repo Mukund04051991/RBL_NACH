@@ -187,7 +187,7 @@ application</title>
 																} else if (status == 3) {
 																	alert("File has been uploaded successfully");
 																} else if (status == 4) {
-																	alert("Utility Code doesn't match with Corporate Mater");
+																	alert("Invalid UMRN Number");
 																} else if (status == 5) {
 																	alert("File Already Uploaded");
 																} else if (status == 6) {

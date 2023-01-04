@@ -145,39 +145,58 @@ public class CancelBulkMandateDao {
         System.out.println("Inside the insertexcelFileRecords");
 				con.setAutoCommit(false);
 				for (com.ddmandate.util.ExcelTemplateVO vo : txnList) {
+					
+					
+					
+				//DATA Entry in MMS_OUT_INFO_TMP
+					
+					
+					
 				//UMRN  Available Or Not
 				ResultSet rs = null;
 				String query ="select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =?";
 				System.out.println(query);
 				PreparedStatement pst = con.prepareStatement(query);
 				pst.setString(1, vo.getUMRN());
-				//rs = pst.executeBatch();
-				 //rs = pst.executeQuery();
-				 ResultSet rs2 = pst.executeQuery();
+			    ResultSet rs2 = pst.executeQuery();
+			    
+			    
+			    
 				
 				
 				//Check for already cancel or not
-				String CanStatus ="Cancel";
+				String CanStatus ="CANCEL";
 				String query2 = "select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =? AND MMS_TYPE=?";
+				System.out.println("select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =? AND MMS_TYPE=?;");
 				PreparedStatement pst1 = con.prepareStatement(query2);
 				pst1.setString(1, vo.getUMRN());// UMRN
+				System.out.println("UMRN NO"+vo.getUMRN());
 				pst1.setString(2, CanStatus);
 				ResultSet rs1 = pst1.executeQuery();
+				System.out.println("rs1 >>"+ rs1);
 				
-				
+						
 				int count = 0;
+				int count1 = 0;
 				while (rs2.next()) {
 					count = rs2.getInt(1);
 				}
+			
 				System.out.println("file exist count:" + count);
+				
+				
 				if (count > 0) {
-					rs1.next();
-					System.out.println("rs1.next :->");
-					int y = rs1.getInt(1);
 					
-					System.out.println("y >>>" + y);	
+					while (rs1.next()) {
+						System.out.println("rs1.getInt(1)"+rs1.getInt(1));
+						count1 = rs1.getInt(1);
+						//System.out.println();
+						System.out.println("count1 >>>" + count1);	
+					}
 					
-				if(y > 0) {
+					
+				if(count1 > 0) {
+					
 				String updateQry ="UPDATE MMS_OUT_INFO_TMP SET REJECT_REASON ='Already Cancel' WHERE UMRN=?";	
 				PreparedStatement pst2 = con.prepareStatement(updateQry);
 				pst2.setString(1,vo.getUMRN());
@@ -199,7 +218,24 @@ public class CancelBulkMandateDao {
 						status =true;
 					  }	
 				} else {
+					
+					System.out.println("IF UMRN IS NOT FOUND WE ARE ADDING THE ENTRY IN THE MMS_OUT_INFO_TMP");
+					
+					String updateQry ="INSERT INTO MMS_OUT_INFO_TMP (REJECT_REASON, CANCELLATION_CODE,UTILITY_CODE,UMRN)  VALUES  ('UMRN DOES NOT EXIST',?,?,?)";
+					 
+					PreparedStatement pst4 = con.prepareStatement(updateQry);
+					pst4.setString(1,vo.getCANCELLATION_CODE());
+					System.out.println("CANCELLATION_CODE >>>"+vo.getCANCELLATION_CODE());
+					pst4.setString(2,vo.getUTILITY_CODE());
+					System.out.println("UTILITY_CODE >>>"+vo.getUTILITY_CODE());
+					pst4.setString(3,vo.getUMRN());
+					System.out.println("UMRN"+vo.getUMRN());
+					ResultSet rs5 = pst4.executeQuery();
+					con.commit();
 					System.out.println("UMRN Not Exixt");
+					
+					status =false;
+					
 				}
 				
 		}
