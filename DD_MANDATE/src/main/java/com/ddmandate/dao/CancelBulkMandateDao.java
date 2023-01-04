@@ -209,7 +209,7 @@ public class CancelBulkMandateDao {
 					  {
 						//already not cancelled so CNV
 					   System.out.println("already not cancelled so CNV");
-						String updateQry ="UPDATE MMS_OUT_INFO_TMP SET REJECT_REASON ='CNV' WHERE UMRN=?";	
+						String updateQry ="UPDATE MMS_OUT_INFO_TMP SET STATUS ='CNVG' WHERE UMRN=?";	
 						PreparedStatement pst3 = con.prepareStatement(updateQry);
 						pst3.setString(1,vo.getUMRN());
 						System.out.println("UMRN"+vo.getUMRN());
