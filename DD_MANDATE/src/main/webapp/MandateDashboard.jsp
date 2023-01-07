@@ -92,7 +92,16 @@ $(document).ready(function () {
 											'#utility_code').val();
 									console.log('utility_code:'
 											+ utility_code);
-									if (utility_name == "Select Utility Name") {
+									var To_date =$('#To_date').val();
+									console.log('To_date:'+ To_date);
+									
+									
+									
+									if (To_date == "") {
+										alert("Please Select Date");
+										return false;
+									}
+									else if (utility_name == "Select Utility Name") {
 										alert("Please Select Utility Name");
 										return false;
 									} else if (utility_code == "Select Utility Code") {
@@ -102,7 +111,7 @@ $(document).ready(function () {
 										alert("Please upload file...");
 										return false;
 									} else {
-										var url = "demo";
+										var url = "MandateDashboardController";
 										var form = $("#sampleUploadFrm")[0];
 										var data = new FormData(form);
 										console.log('data:' + data);
@@ -112,12 +121,17 @@ $(document).ready(function () {
 										$
 												.ajax({
 													type : "POST",
-													encType : "multipart/form-data",
+													
 													url : url,
 													cache : false,
-													processData : false,
-													contentType : false,
-													data : data,
+													data : {
+														
+														
+														To_date : To_date,
+														utility_code : utility_code,
+														utility_name :utility_name
+														
+														},
 													success : function(
 															msg) {
 														var response = JSON
@@ -256,7 +270,7 @@ $(document).ready(function () {
 
 <body>
 
-<h3>UPLOAD DIRECT DEBIT TRANSACTION FILE</h3>
+<h3>MANDATE DASHBOARD</h3>
 <form id="sampleUploadFrm" method="POST" action="#" >
 				<div class="form-group">
 				<label for="From Date">Date:</label>
@@ -285,7 +299,7 @@ $(document).ready(function () {
                 <th>Pending for Verification</th>
                 <th>Sendback Data Entry</th>
                 <th>Pending Sendback Verification</th>
-                <th>PendIng Verified Rejected</th>
+                <th>Pending Verified Rejected</th>
                 <th>Action Pending</th>
                 <th>ACK Received</th>
                 <th>Nack Received</th>

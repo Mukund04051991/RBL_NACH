@@ -68,4 +68,19 @@
     <url-pattern>/CancelBulkUploadController</url-pattern>
   </servlet-mapping>
   
+  <!-- Ganesh Added on 29122022 -->
+   <servlet>
+    <description></description>
+    <display-name>MandateDashboardController</display-name>
+    <servlet-name>MandateDashboardController</servlet-name>
+    <servlet-class>com.ddmandate.controller.MandateDashboardController</servlet-class>
+  </servlet>   
+    
+  <servlet-mapping>
+    <servlet-name>MandateDashboardController</servlet-name>
+    <url-pattern>/MandateDashboardController</url-pattern>
+  </servlet-mapping>
+  
+  
+  
 </web-app>

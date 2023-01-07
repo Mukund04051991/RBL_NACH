@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 
 import com.ddmandate.bean.UtilityDetails;
 
+import com.ddmandate.bean.MandateDashboardBean;
+
 public class ACHSponsorDao {
 
 	Connection con;
@@ -473,5 +475,98 @@ public class ACHSponsorDao {
 		}
 
 	}
+
+	
+		
+		 public List<MandateDashboardBean> getMandateDetails(String utility_name, String utility_code, String to_date){
+			  List<MandateDashboardBean> MandateList = new ArrayList<MandateDashboardBean>();
+			  MandateDashboardBean bean=new MandateDashboardBean();
+			  PreparedStatement ps =null;
+			  ResultSet rs = null;
+			  Connection conn1 = null;
+			  String Query ="";
+			  String REF_NUM ;    
+				String HDR_MSG_ID;                           
+				String HDR_CREATE_DATE; 
+				String MNDT_REQ_ID;                          
+				String SVCLVL_PRTRY;                          
+				String LCLINSTRM_PRTRY;                       
+				String SEQTP;                                  
+				String FREQUENCY;                              
+				String MMS_FROM_DATE;                         
+				String MMS_TO_DATE;                           
+				String AMOUNT;                                
+				String CDTR_IFSC;                             
+				String CDTR_NAME;                            
+				String CDTR_ACCT_NO;                     
+				String CDTR_AGNT_IFSC;                        
+				String CDTR_AGNT_NAME;                      
+				String DBTR_NAME;                            
+			
+
+			  System.out.println("OKKKAYYYY");
+			  try { 
+			  conn1 =  this.getConnection();
+			  System.out.println(conn1);
+			  ps =conn1.prepareStatement("select MANDATE_DATE,MMS_TYPE,UMRN,DBTR_OTHER_DETAILS,dbtr_prvtid_id,DBTR_NAME,dbtr_agnt_name,ref_num,dbtr_agnt_ifsc,DBTR_ACCT_PRTRY,DBTR_ACCT_NO,amount,FREQUENCY,AMNT_TYPE,MMS_FROM_DATE,MMS_TO_DATE,SVCLVL_PRTRY,DBTR_MOBILE_NO,DBTR_EMAIL_ID,AUTH_DATE,ACK_DATE_NPCI,ACK_DATE_RECEIVER,CDTR_ACCT_NO,CDTR_NAME,STATUS,REJECT_CODE_DESTINATION,REJECT_REASON from MMS_OUT_INFO_TMP where To_DATE(mms_from_date,'DD-MM-YYYY') BETWEEN to_date(?,'YYYY-MM-DD') AND to_date(?,'YYYY-MM-DD')");
+			  ps.setString(1, utility_name);
+			  ps.setString(2, utility_code);
+			  ps.setString(3, to_date);
+			  ResultSet rs1 = ps.executeQuery();
+			 System.out.println("Query is here");
+			  
+			  
+			  System.out.println(rs1);
+			  
+			  while (rs1.next()) {
+				  MandateDashboardBean DashboardBean = new MandateDashboardBean();
+					
+					MANDATE_DATE = bean.setMANDATE_DATE(rs1.getString(1));
+					MMS_TYPE = bean.setMMS_TYPE(rs1.getString(2));
+					UMRN = bean.setUMRN(rs1.getString(3));
+					DBTR_OTHER_DETAILS =bean.setDBTR_OTHER_DETAILS(rs1.getString(4));
+					DBTR_PRVTID_ID = bean.setDBTR_PRVTID_ID(rs1.getString(5));
+					DBTR_NAME =bean.setDBTR_NAME(rs1.getString(6));
+					DBTR_AGNT_NAME =bean.setDBTR_AGNT_NAME(rs1.getString(7));
+					REF_NUM = bean.setREF_NUM(rs1.getString(8));
+					DBTR_AGNT_IFSC =bean.setDBTR_AGNT_IFSC(rs1.getString(9));
+					DBTR_ACCT_PRTRY = bean.setDBTR_ACCT_PRTRY(rs1.getString(10));
+					DBTR_ACCT_NO = bean.setDBTR_ACCT_NO(rs1.getString(11));
+					AMOUNT = bean.setAMOUNT(rs1.getString(12));
+					FREQUENCY = bean.setFREQUENCY(rs1.getString(13)); 
+					
+
+					MandateList.add(bean);
+
+				}
+
+
+			  }catch(Exception e) { e.printStackTrace();
+			  
+			  }finally { try 
+			  {if (ps !=null)
+			  { ps.close(); ps= null; } 
+			  if(rs !=null){
+			  rs.close(); 
+			  rs=null;
+			  
+			  }}catch(Exception e)
+			  
+			  
+			  
+			  {
+			  
+			  e.printStackTrace(); } }
+			  
+			  return MandateList;
+			 
+			  }
+
+		
+		
+		
+	
+
+	
 
 }
