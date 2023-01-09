@@ -289,7 +289,7 @@ $(document).ready(function () {
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th>FILE Name</th>
+                <th>FILE NAME</th>
                 <th>Utility Name</th>
                 <th>Utility Code</th>
                 <th>Mandate Type</th>

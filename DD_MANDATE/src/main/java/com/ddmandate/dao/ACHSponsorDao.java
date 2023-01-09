@@ -497,8 +497,8 @@ public class ACHSponsorDao {
 					
 					//Getting 
 					String query ="select mms_out_info_tmp.BATCH_ID,mms_out_info_tmp.CDTR_ACCT_NO ,mms_out_info_tmp.CDTR_AGNT_NAME,"
-							+ "mms_out_info_tmp.mms_type from mms_img_mas,mms_out_info_tmp where  mms_out_info_tmp.auth_date ='' "
-							+ "and mms_out_info_tmp.CDTR_AGNT_NAME ='' and mms_out_info_tmp.CDTR_ACCT_NO='' ";
+							+ "mms_out_info_tmp.mms_type from mms_img_mas,mms_out_info_tmp where  mms_out_info_tmp.auth_date =? "
+							+ "and mms_out_info_tmp.CDTR_AGNT_NAME =? and mms_out_info_tmp.CDTR_ACCT_NO=? ";
 					System.out.println(query);
 					PreparedStatement pst = con.prepareStatement(query);
 					pst.setString(1, to_date);
@@ -508,7 +508,7 @@ public class ACHSponsorDao {
 				    
 				   
 				  //MANDATE COUNT 
-					String query1 ="SELECT COUNT(CDTR_ACCT_NO) FROM mms_out_info_tmp where CDTR_AGNT_NAME ='' and CDTR_ACCT_NO='' GROUP BY CDTR_ACCT_NO ORDER BY COUNT(CDTR_ACCT_NO) DESC";
+					String query1 ="SELECT COUNT(CDTR_ACCT_NO) as MANDATE FROM mms_out_info_tmp where CDTR_AGNT_NAME =? and CDTR_ACCT_NO=? GROUP BY CDTR_ACCT_NO ORDER BY COUNT(CDTR_ACCT_NO) DESC";
 					System.out.println(query);
 					PreparedStatement pst1 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -518,7 +518,7 @@ public class ACHSponsorDao {
 				    
 				    
 				  //DATA ENTRY PENDING
-					String query2 ="SELECT COUNT(FILE_STATUS),STATUS FROM mms_out_info_tmp where FILE_STATUS ='N' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY FILE_STATUS ORDER BY COUNT(FILE_STATUS) DESC";
+					String query2 ="SELECT COUNT(FILE_STATUS) as DATA_ENTRY_PENDING STATUS FROM mms_out_info_tmp where FILE_STATUS ='N' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY FILE_STATUS ORDER BY COUNT(FILE_STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst2 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -528,7 +528,7 @@ public class ACHSponsorDao {
 				    
 				    
 				    //PENDING VERIFICATION QUEUE
-					String query3 ="SELECT COUNT(STATUS) FROM mms_out_info_tmp where STATUS ='MODA' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					String query3 ="SELECT COUNT(STATUS) AS PENDING_VERIFICATION_QUEUE FROM mms_out_info_tmp where STATUS ='MODA' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst3 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -538,7 +538,7 @@ public class ACHSponsorDao {
 				    
 				    
 				  //SENDBACK DATA ENTRY PENDING
-					String query4 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MOD' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					String query4 ="SELECT COUNT(STATUS) AS SENDBACK_DATA_ENTRY_PENDING FROM mms_out_info_tmp where STATUS ='MOD' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst4 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -547,8 +547,8 @@ public class ACHSponsorDao {
 				    ResultSet rs4 = pst.executeQuery();
 				  
 					
-				    //SENBACK BACK FOR VERIFICATION pending
-					String query5 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MODA' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+				    //PENDING VERIFICATION pending
+					String query5 ="SELECT COUNT(STATUS) AS PENDING_VERIFICATION FROM mms_out_info_tmp where STATUS ='MODA' AND SENDBACK='Y' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst5 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -557,7 +557,7 @@ public class ACHSponsorDao {
 				    ResultSet rs5 = pst.executeQuery();
 				    
 				  //SENBACK BACK FOR VERIFICATION pending
-					String query6 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MODA' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					String query6 ="SELECT COUNT(STATUS) AS SENBACK_BACK_FOR_VERIFICATION FROM mms_out_info_tmp where STATUS ='MODA' AND SENDBACK='Y' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst6 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -567,7 +567,7 @@ public class ACHSponsorDao {
 				    
 				    
 				  //verified
-					String query7 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='CRV' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					String query7 ="SELECT COUNT(STATUS) AS VERIFIED FROM mms_out_info_tmp where STATUS ='CRV' AND SENDBACK='Y' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst7 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -576,7 +576,7 @@ public class ACHSponsorDao {
 				    ResultSet rs7 = pst.executeQuery();
 				    
 				    //Rejected
-					String query8 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='CRVR' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					String query8 ="SELECT COUNT(STATUS) AS REJECTED FROM mms_out_info_tmp where STATUS ='CRVR' AND SENDBACK='Y' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst8 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -586,7 +586,7 @@ public class ACHSponsorDao {
 				    
 				    
 				    //ACTION PENDING
-					String query9 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MODA' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					String query9 ="SELECT COUNT(STATUS) AS ACTION_PENDING FROM mms_out_info_tmp where STATUS ='MODA' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst9 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -595,7 +595,7 @@ public class ACHSponsorDao {
 				    ResultSet rs9 = pst.executeQuery();
 				    
 				    // ACK RECEVIED
-				    String query10 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='ACKN' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+				    String query10 ="SELECT COUNT(STATUS) AS ACK_RECEVIED FROM mms_out_info_tmp where STATUS ='ACKN' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst10 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -604,7 +604,7 @@ public class ACHSponsorDao {
 				    ResultSet rs10 = pst.executeQuery();
 				    
 				    // NACK RECEVIED
-				    String query11 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='ACKN' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+				    String query11 ="SELECT COUNT(STATUS) AS NACK_RECEVIED FROM mms_out_info_tmp where STATUS ='ACKN' AND CDTR_AGNT_NAME =? AND CDTR_ACCT_NO=? GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
 					System.out.println(query);
 					PreparedStatement pst11 = con.prepareStatement(query);
 					//pst.setString(1, to_date);
@@ -624,14 +624,14 @@ public class ACHSponsorDao {
 						obj.put("UTILITY_CODE", rs.getString("CDTR_ACCT_NO"));
 						
 						array.put(obj.toString());
+						rs.close();
 					}
 					
 					while (rs1.next()) {
 						obj = new JSONObject();
 
 						obj.put("MANDATE", rs.getString("COUNT(STATUS)"));
-					
-						array.put(obj.toString());
+						
 					}
 					
 					while (rs2.next()) {
@@ -639,8 +639,6 @@ public class ACHSponsorDao {
 
 						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
 						
-						
-						array.put(obj.toString());
 					}
 					
 					while (rs3.next()) {
@@ -648,10 +646,64 @@ public class ACHSponsorDao {
 
 						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
 					
-						
-						array.put(obj.toString());
 					}
 					
+					while (rs4.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
+					
+					while (rs5.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
+					
+					while (rs6.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
+					
+					while (rs7.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
+					
+					while (rs8.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
+					
+					
+					while (rs9.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
+					
+					while (rs10.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
+					
+					while (rs11.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+					}
 					
 					array.put(obj.toString());
 					
