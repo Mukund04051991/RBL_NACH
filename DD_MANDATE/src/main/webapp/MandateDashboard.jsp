@@ -289,17 +289,17 @@ $(document).ready(function () {
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th>File Name</th>
+                <th>FILE Name</th>
                 <th>Utility Name</th>
                 <th>Utility Code</th>
-                <th>Mandate Type</th>
                 <th>Mandate Type</th>
                 <th>Mandates</th>
                 <th>Data Entry Pending</th>
                 <th>Pending for Verification</th>
-                <th>Sendback Data Entry</th>
-                <th>Pending Sendback Verification</th>
-                <th>Pending Verified Rejected</th>
+                <th>Sendback Data Entry Pending</th>
+                <th>Sendback Verification Pending</th>
+                <th>Verified</th>
+                <th>Rejected</th>
                 <th>Action Pending</th>
                 <th>ACK Received</th>
                 <th>Nack Received</th>

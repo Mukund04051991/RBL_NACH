@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.ddmandate.bean.UtilityDetails;
 
 import com.ddmandate.bean.MandateDashboardBean;
@@ -477,90 +480,225 @@ public class ACHSponsorDao {
 	}
 
 	
-		
-		 public List<MandateDashboardBean> getMandateDetails(String utility_name, String utility_code, String to_date){
-			  List<MandateDashboardBean> MandateList = new ArrayList<MandateDashboardBean>();
-			  MandateDashboardBean bean=new MandateDashboardBean();
-			  PreparedStatement ps =null;
-			  ResultSet rs = null;
-			  Connection conn1 = null;
-			  String Query ="";
-			  String REF_NUM ;    
-				String HDR_MSG_ID;                           
-				String HDR_CREATE_DATE; 
-				String MNDT_REQ_ID;                          
-				String SVCLVL_PRTRY;                          
-				String LCLINSTRM_PRTRY;                       
-				String SEQTP;                                  
-				String FREQUENCY;                              
-				String MMS_FROM_DATE;                         
-				String MMS_TO_DATE;                           
-				String AMOUNT;                                
-				String CDTR_IFSC;                             
-				String CDTR_NAME;                            
-				String CDTR_ACCT_NO;                     
-				String CDTR_AGNT_IFSC;                        
-				String CDTR_AGNT_NAME;                      
-				String DBTR_NAME;                            
-			
+		//Added for MandateDashboardBean
+		 		 
+			public JSONArray getMandateDetails(String utility_name, String utility_code, String to_date) {
+				System.out.println("utility_name:" + utility_name);
+				System.out.println("utility_code:" + utility_code);
+				System.out.println("to_date:" + to_date);
 
-			  System.out.println("OKKKAYYYY");
-			  try { 
-			  conn1 =  this.getConnection();
-			  System.out.println(conn1);
-			  ps =conn1.prepareStatement("select MANDATE_DATE,MMS_TYPE,UMRN,DBTR_OTHER_DETAILS,dbtr_prvtid_id,DBTR_NAME,dbtr_agnt_name,ref_num,dbtr_agnt_ifsc,DBTR_ACCT_PRTRY,DBTR_ACCT_NO,amount,FREQUENCY,AMNT_TYPE,MMS_FROM_DATE,MMS_TO_DATE,SVCLVL_PRTRY,DBTR_MOBILE_NO,DBTR_EMAIL_ID,AUTH_DATE,ACK_DATE_NPCI,ACK_DATE_RECEIVER,CDTR_ACCT_NO,CDTR_NAME,STATUS,REJECT_CODE_DESTINATION,REJECT_REASON from MMS_OUT_INFO_TMP where To_DATE(mms_from_date,'DD-MM-YYYY') BETWEEN to_date(?,'YYYY-MM-DD') AND to_date(?,'YYYY-MM-DD')");
-			  ps.setString(1, utility_name);
-			  ps.setString(2, utility_code);
-			  ps.setString(3, to_date);
-			  ResultSet rs1 = ps.executeQuery();
-			 System.out.println("Query is here");
-			  
-			  
-			  System.out.println(rs1);
-			  
-			  while (rs1.next()) {
-				  MandateDashboardBean DashboardBean = new MandateDashboardBean();
+				int count = 0;
+
+				JSONObject obj = null;
+				JSONArray array = null;
+				try {
+
+					con = ACHSponsorDao.getConnection();
 					
-					MANDATE_DATE = bean.setMANDATE_DATE(rs1.getString(1));
-					MMS_TYPE = bean.setMMS_TYPE(rs1.getString(2));
-					UMRN = bean.setUMRN(rs1.getString(3));
-					DBTR_OTHER_DETAILS =bean.setDBTR_OTHER_DETAILS(rs1.getString(4));
-					DBTR_PRVTID_ID = bean.setDBTR_PRVTID_ID(rs1.getString(5));
-					DBTR_NAME =bean.setDBTR_NAME(rs1.getString(6));
-					DBTR_AGNT_NAME =bean.setDBTR_AGNT_NAME(rs1.getString(7));
-					REF_NUM = bean.setREF_NUM(rs1.getString(8));
-					DBTR_AGNT_IFSC =bean.setDBTR_AGNT_IFSC(rs1.getString(9));
-					DBTR_ACCT_PRTRY = bean.setDBTR_ACCT_PRTRY(rs1.getString(10));
-					DBTR_ACCT_NO = bean.setDBTR_ACCT_NO(rs1.getString(11));
-					AMOUNT = bean.setAMOUNT(rs1.getString(12));
-					FREQUENCY = bean.setFREQUENCY(rs1.getString(13)); 
+					//Getting 
+					String query ="select mms_out_info_tmp.BATCH_ID,mms_out_info_tmp.CDTR_ACCT_NO ,mms_out_info_tmp.CDTR_AGNT_NAME,"
+							+ "mms_out_info_tmp.mms_type from mms_img_mas,mms_out_info_tmp where  mms_out_info_tmp.auth_date ='' "
+							+ "and mms_out_info_tmp.CDTR_AGNT_NAME ='' and mms_out_info_tmp.CDTR_ACCT_NO='' ";
+					System.out.println(query);
+					PreparedStatement pst = con.prepareStatement(query);
+					pst.setString(1, to_date);
+					pst.setString(2, utility_name);
+					pst.setString(3, utility_code);
+				    ResultSet rs = pst.executeQuery();
+				    
+				   
+				  //MANDATE COUNT 
+					String query1 ="SELECT COUNT(CDTR_ACCT_NO) FROM mms_out_info_tmp where CDTR_AGNT_NAME ='' and CDTR_ACCT_NO='' GROUP BY CDTR_ACCT_NO ORDER BY COUNT(CDTR_ACCT_NO) DESC";
+					System.out.println(query);
+					PreparedStatement pst1 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs1 = pst.executeQuery();
+				    
+				    
+				  //DATA ENTRY PENDING
+					String query2 ="SELECT COUNT(FILE_STATUS),STATUS FROM mms_out_info_tmp where FILE_STATUS ='N' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY FILE_STATUS ORDER BY COUNT(FILE_STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst2 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs2 = pst.executeQuery();
+				    
+				    
+				    //PENDING VERIFICATION QUEUE
+					String query3 ="SELECT COUNT(STATUS) FROM mms_out_info_tmp where STATUS ='MODA' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst3 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs3 = pst.executeQuery();
+				    
+				    
+				  //SENDBACK DATA ENTRY PENDING
+					String query4 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MOD' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst4 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs4 = pst.executeQuery();
+				  
+					
+				    //SENBACK BACK FOR VERIFICATION pending
+					String query5 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MODA' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst5 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs5 = pst.executeQuery();
+				    
+				  //SENBACK BACK FOR VERIFICATION pending
+					String query6 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MODA' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst6 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs6 = pst.executeQuery();
+				    
+				    
+				  //verified
+					String query7 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='CRV' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst7 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs7 = pst.executeQuery();
+				    
+				    //Rejected
+					String query8 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='CRVR' AND SENDBACK='Y' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst8 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs8 = pst.executeQuery();
+				    
+				    
+				    //ACTION PENDING
+					String query9 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='MODA' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst9 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs9 = pst.executeQuery();
+				    
+				    // ACK RECEVIED
+				    String query10 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='ACKN' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst10 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs10 = pst.executeQuery();
+				    
+				    // NACK RECEVIED
+				    String query11 ="SELECT COUNT(STATUS),STATUS FROM mms_out_info_tmp where STATUS ='ACKN' AND CDTR_AGNT_NAME ='' AND CDTR_ACCT_NO='' GROUP BY STATUS ORDER BY COUNT(STATUS) DESC";
+					System.out.println(query);
+					PreparedStatement pst11 = con.prepareStatement(query);
+					//pst.setString(1, to_date);
+					pst.setString(1, utility_name);
+					pst.setString(2, utility_code);
+				    ResultSet rs11 = pst.executeQuery();
+				    
+				    
+					
+			        array = new JSONArray();
+					
+					while (rs.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+						obj.put("UTILITY_NAME", rs.getString("CDTR_AGNT_NAME"));
+						obj.put("UTILITY_CODE", rs.getString("CDTR_ACCT_NO"));
+						
+						array.put(obj.toString());
+					}
+					
+					while (rs1.next()) {
+						obj = new JSONObject();
+
+						obj.put("MANDATE", rs.getString("COUNT(STATUS)"));
+					
+						array.put(obj.toString());
+					}
+					
+					while (rs2.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+						
+						
+						array.put(obj.toString());
+					}
+					
+					while (rs3.next()) {
+						obj = new JSONObject();
+
+						obj.put("FILE_NAME", rs.getString("BATCH_ID"));
+					
+						
+						array.put(obj.toString());
+					}
+					
+					
+					array.put(obj.toString());
+					
+					
+					
+					
 					
 
-					MandateList.add(bean);
+				} catch (Exception ex) {
+					ex.printStackTrace(System.out);
+				} finally {
 
+					if (rs != null) {
+						try {
+							rs.close();
+							rs = null;
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace(System.out);
+						}
+
+					}
+					if (pst != null) {
+						try {
+							pst.close();
+							pst = null;
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace(System.out);
+						}
+
+					}
+					if (con != null) {
+						try {
+							con.close();
+							con = null;
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace(System.out);
+						}
+
+					}
 				}
+				return array;
 
+			}
 
-			  }catch(Exception e) { e.printStackTrace();
-			  
-			  }finally { try 
-			  {if (ps !=null)
-			  { ps.close(); ps= null; } 
-			  if(rs !=null){
-			  rs.close(); 
-			  rs=null;
-			  
-			  }}catch(Exception e)
-			  
-			  
-			  
-			  {
-			  
-			  e.printStackTrace(); } }
-			  
-			  return MandateList;
-			 
-			  }
 
 		
 		
