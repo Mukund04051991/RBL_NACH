@@ -130,6 +130,11 @@ $(document).ready(function () {
 														utility_name :utility_name
 														
 														},
+														
+														
+														
+														
+														
 													success : function(
 															msg) {
 														var response = JSON
@@ -157,7 +162,7 @@ $(document).ready(function () {
 														} else if (status == 12) {
 															alert("Invalid Amount Value in Excel");
 														} else {
-															alert("Couldn't upload file");
+															alert("No Data Found");
 														}
 														location
 																.reload();

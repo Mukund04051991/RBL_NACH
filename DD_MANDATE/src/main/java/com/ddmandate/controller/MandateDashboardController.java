@@ -1,6 +1,7 @@
 package com.ddmandate.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 
 import com.ddmandate.dao.MandateDashboardDao;
 
@@ -41,6 +43,11 @@ public class MandateDashboardController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		
+		PrintWriter out = response.getWriter();
+
+		JSONArray array = null;
+		
 		MandateDashboardDao dao = new MandateDashboardDao();
 		System.out.println("In the MandateDashboardController");
 		String utility_name = request.getParameter("utility_name");
@@ -50,11 +57,20 @@ public class MandateDashboardController extends HttpServlet {
 		String To_date = request.getParameter("To_date");
 		System.out.println("To_date"+To_date);
 		
+		array = dao.getMandateDetails(utility_name,utility_code,To_date);;
+
+		System.out.println("array:" + array);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        out.print(array);
 		
-		dao.getMandateDetails(utility_name,utility_code,To_date);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/NewFile2.jsp");
-		rd.forward(request, response);
+		
+		
+		/*
+		 * RequestDispatcher rd = request.getRequestDispatcher("/NewFile2.jsp");
+		 * rd.forward(request, response);
+		 */
 		
 		
 		
