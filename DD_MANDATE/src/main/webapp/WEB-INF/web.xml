@@ -81,6 +81,19 @@
     <url-pattern>/MandateDashboardController</url-pattern>
   </servlet-mapping>
   
+  <!-- Ganesh Added on 10012023 -->
+   <servlet>
+    <description></description>
+    <display-name>GetMandateDashboardController</display-name>
+    <servlet-name>GetMandateDashboardController</servlet-name>
+    <servlet-class>com.ddmandate.controller.GetMandateDashboardController</servlet-class>
+  </servlet>   
+    
+  <servlet-mapping>
+    <servlet-name>GetMandateDashboardController</servlet-name>
+    <url-pattern>/GetMandateDashboardController</url-pattern>
+  </servlet-mapping>
+  
   
   
 </web-app>

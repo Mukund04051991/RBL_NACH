@@ -23,12 +23,10 @@ application</title>
        
        <!--css  -->
        <link rel="stylesheet" href="assets/css/jquery.dataTables.min.css"> 
-      <link rel="stylesheet" href="assets/css/buttons.dataTables.min.css"> 
-      
-      
-      <!--js  -->
-   <script type="text/javascript" src ="assets/js/jquery-3.5.1.js"></script> 
-      <script type="text/javascript" src ="assets/js/dataTables.bootstrap4.min.js"></script>
+       <link rel="stylesheet" href="assets/css/buttons.dataTables.min.css"> 
+       <!--js  -->
+       <script type="text/javascript" src ="assets/js/jquery-3.5.1.js"></script> 
+       <script type="text/javascript" src ="assets/js/dataTables.bootstrap4.min.js"></script>
        <script type="text/javascript" src ="assets/js/jquery.dataTables.min.js"></script> 
       
 <!-- bootstrap link is ended -->
@@ -50,7 +48,7 @@ $(document).ready(function () {
 						});
 						$
 								.ajax({
-									url : "GetUtilityController",
+									url : "GetMandateDashboardController",
 									method : "POST",
 									data : {
 										operation : 'getAll'
@@ -64,8 +62,8 @@ $(document).ready(function () {
 														function(key, value) {
 															$('#utility_name')
 																	.append(
-																			'<option value="' + value.utility_name + '">'
-																					+ value.utility_name
+																			'<option value="' + value.CDTR_AGNT_NAME + '">'
+																					+ value.CDTR_AGNT_NAME
 																					+ '</option>')
 														});
 										//$('select').formSelect();
@@ -192,7 +190,7 @@ $(document).ready(function () {
 
 									$
 											.ajax({
-												url : "GetUtilityController",
+												url : "GetMandateDashboardController",
 												method : "POST",
 												data : data,
 												success : function(
@@ -211,8 +209,8 @@ $(document).ready(function () {
 																		$(
 																				'#utility_code')
 																				.append(
-																						'<option value="' + value.utility_code + '">'
-																								+ value.utility_code
+																						'<option value="' + value.CDTR_AGNT_NAME + '">'
+																								+ value.CDTR_ACCT_NO
 																								+ '</option>')
 																	});
 													//$('select')
@@ -242,7 +240,7 @@ $(document).ready(function () {
 
 									$
 											.ajax({
-												url : "GetUtilityController",
+												url : "GetMandateDashboardController",
 												method : "POST",
 												data : data,
 												success : function(data) {

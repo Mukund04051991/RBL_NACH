@@ -146,14 +146,9 @@ public class CancelBulkMandateDao {
 				con.setAutoCommit(false);
 				for (com.ddmandate.util.ExcelTemplateVO vo : txnList) {
 					
-					
-					
-				//DATA Entry in MMS_OUT_INFO_TMP
-					
-					
-					
+						
 				//UMRN  Available Or Not
-				ResultSet rs = null;
+				//ResultSet rs = null;
 				String query ="select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =?";
 				System.out.println(query);
 				PreparedStatement pst = con.prepareStatement(query);
@@ -161,10 +156,7 @@ public class CancelBulkMandateDao {
 			    ResultSet rs2 = pst.executeQuery();
 			    
 			    
-			    
-				
-				
-				//Check for already cancel or not
+			    //Check for already cancel or not
 				String CanStatus ="CANCEL";
 				String query2 = "select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =? AND MMS_TYPE=?";
 				System.out.println("select count (1) from MMS_OUT_INFO_TMP WHERE UMRN =? AND MMS_TYPE=?;");
