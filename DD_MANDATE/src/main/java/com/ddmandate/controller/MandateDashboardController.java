@@ -67,13 +67,6 @@ public class MandateDashboardController extends HttpServlet {
 		
 		
 		
-		/*
-		 * RequestDispatcher rd = request.getRequestDispatcher("/NewFile2.jsp");
-		 * rd.forward(request, response);
-		 */
-		
-		
-		
 	}
 
 }

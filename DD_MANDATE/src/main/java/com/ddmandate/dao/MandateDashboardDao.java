@@ -92,61 +92,8 @@ public class MandateDashboardDao {
 		return list;
 	}
 
-	public boolean checkFileExist(String filename) {
-
-		Connection con = MandateDashboardDao.getConnection();
-		boolean isExist = false;
-		try {
-
-			// query = "select count(1) from nach_dd_in_file_info where upload_file_name
-			// =?";
-			query = "select count(1) from nach_dd_mms_in_file_info where upload_file_name =?";
-			pst = con.prepareStatement(query);
-			pst.setString(1, filename);
-			rs = pst.executeQuery();
-			int count = 0;
-			while (rs.next()) {
-				count = rs.getInt(1);
-			}
-			System.out.println("file exist count:" + count);
-			if (count > 0) {
-				isExist = true;
-			} else {
-				isExist = false;
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return isExist;
-	}
-
-	// delete file from database
-	public int deleteDDFile(String filename) {
-
-		int t = 0;
-		Connection con = MandateDashboardDao.getConnection();
-		try {
-			con.setAutoCommit(false);
-			query = "delete from nach_dd_mms_in_file_info where upload_file_name =?";
-			pst = con.prepareStatement(query);
-			pst.setString(1, filename);
-			t = pst.executeUpdate();
-
-			if (t > 0) {
-				con.commit();
-				return t;
-			} else {
-				return t;
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace(System.out);
-			return t;
-		}
-
-	}
-
+	
+	
 	// Added for MandateDashboardBean
 
 	public JSONArray getMandateDetails(String utility_name, String utility_code, String to_date) {
@@ -327,77 +274,77 @@ public class MandateDashboardDao {
 			while (rs1.next() && rs1 != null) {
 				obj = new JSONObject();
 
-				obj.put("MANDATE TYPE", rs1.getString("MANDATE_COUNT"));
+				obj.put("MANDATE_TYPE", rs1.getString("MANDATE_COUNT"));
 
 			}
 
 			while (rs2.next() && rs2 != null) {
 				obj = new JSONObject();
 
-				obj.put("MANDATES", rs2.getString("BATCH_ID"));
+				obj.put("DATA_ENTRY_PENDING_STATUS", rs2.getString("DATA_ENTRY_PENDING_STATUS"));
 
 			}
 
 			while (rs3.next() && rs3 != null) {
 				obj = new JSONObject();
 
-				obj.put("DATA ENTRY PENDING", rs3.getString("BATCH_ID"));
+				obj.put("PENDING_VERIFICATION_QUEUE", rs3.getString("PENDING_VERIFICATION_QUEUE"));
 
 			}
 
 			while (rs4.next() && rs4 != null) {
 				obj = new JSONObject();
 
-				obj.put("PENDING FOR VERIFICATIOBN", rs4.getString("BATCH_ID"));
+				obj.put("SENDBACK_DATA_ENTRY_PENDING", rs4.getString("SENDBACK_DATA_ENTRY_PENDING"));
 
 			}
 
 			while (rs5.next() && rs5 != null) {
 				obj = new JSONObject();
 
-				obj.put("SENDBACK DATA ENTRY PENDING", rs5.getString("BATCH_ID"));
+				obj.put("PENDING_VERIFICATION", rs5.getString("PENDING_VERIFICATION"));
 
 			}
 
 			while (rs6.next() && rs6 != null) {
 				obj = new JSONObject();
 
-				obj.put("SENDBACK VERIFICATION PENDING", rs6.getString("BATCH_ID"));
+				obj.put("SENBACK_BACK_FOR_VERIFICATION", rs6.getString("SENBACK_BACK_FOR_VERIFICATION"));
 
 			}
 
 			while (rs7.next() && rs7 != null) {
 				obj = new JSONObject();
 
-				obj.put("VERIFIED", rs7.getString("BATCH_ID"));
+				obj.put("VERIFIED", rs7.getString("VERIFIED"));
 
 			}
 
 			while (rs8.next() && rs8 != null) {
 				obj = new JSONObject();
 
-				obj.put("REJECTED", rs8.getString("BATCH_ID"));
+				obj.put("REJECTED", rs8.getString("REJECTED"));
 
 			}
 
 			while (rs9.next() && rs9 != null) {
 				obj = new JSONObject();
 
-				obj.put("ACTION_PENDING", rs9.getString("BATCH_ID"));
+				obj.put("ACTION_PENDING", rs9.getString("ACTION_PENDING"));
 
 			}
 
 			while (rs10.next() && rs10 != null) {
 				obj = new JSONObject();
 
-				obj.put("ACK_RECEIVED", rs10.getString("BATCH_ID"));
+				obj.put("ACK_RECEIVED", rs10.getString("ACK_RECEVIED"));
 
 			}
 
 			while (rs11.next() && rs11 != null) {
 				obj = new JSONObject();
 
-				obj.put("NACK_RECEIVED", rs11.getString("BATCH_ID"));
+				obj.put("NACK_RECEIVED", rs11.getString("NACK_RECEIVED"));
 
 			}
 
