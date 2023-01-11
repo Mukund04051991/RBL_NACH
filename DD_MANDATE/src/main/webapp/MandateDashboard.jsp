@@ -57,11 +57,14 @@
 									success : function(data, textStatus, jqXHR) {
 										console.log(data);
 										let obj = $.parseJSON(data);
-										
-										$.each(obj,function(key, value) {
+
+										$
+												.each(
+														obj,
+														function(key, value) {
 															$('#utility_name')
 																	.append(
-																'<option value="' + value.CDTR_AGNT_NAME + '">'
+																			'<option value="' + value.CDTR_AGNT_NAME + '">'
 																					+ value.CDTR_AGNT_NAME
 																					+ '</option>')
 														});
@@ -78,13 +81,18 @@
 
 						$("#uploadBtn")
 								.click(
-										function() {
-											var utility_name = $('#utility_name').val();
-											console.log('utility_name:'+ utility_name);
-											
-											var utility_code = $('#utility_code').val();
-											console.log('utility_code:'+ utility_code);
-											
+										function(e) {
+											e.preventDefault();
+											var utility_name = $(
+													'#utility_name').val();
+											console.log('utility_name:'
+													+ utility_name);
+
+											var utility_code = $(
+													'#utility_code1').val();
+											console.log('utility_code1:'
+													+ utility_code1);
+											/* utility_code */
 											var To_date = $('#To_date').val();
 											console.log('To_date:' + To_date);
 
@@ -102,38 +110,69 @@
 												$('#example').dataTable()
 														.fnDestroy();
 
-												alert("utility_name:" + utility_name);
-												alert("utility_code:" + utility_code);
+												alert("utility_name:"
+														+ utility_name);
+												alert("utility_code:"
+														+ utility_code);
 												alert("To_date:" + To_date);
 
-												$
-														.ajax({
+												$.ajax({
 															type : "POST",
 															url : "MandateDashboardController",
 															data : {
 																"utility_name" : utility_name,
 																"utility_code" : utility_code,
 																"To_date" : To_date
-
-															},
+                                                      },
+															
+                                                      
+															
 															dataType : "json",
+															
 															success : function(
 																	resp) {
 
+																//$("#example").dataTable({
+																//dataTable.clear().draw();
 																
-																alert('dataTable:'
-																		+ dataTable);
-
-																dataTable
-																		.clear()
-																		.draw();
-																var fragment = "";
+																//var fragment = "";
 																var exceldata = "";
-																var exceld = "";
+																//var exceld = "";
+						
 																
+																dataTable = $(
+																	'#example')
+																	.DataTable(
+																			{
+																				dom : 'Bfrtip',
+																				buttons : [ 'colvis' ],
+																				columnDefs : [ {
+																					orderable : false,
+																					//className : 'select-checkbox',
+																					targets : 0,
+																					'render' : function(
+																							data,
+																							type,
+																							full,
+																							meta) 
+																							
+																							{
+									                            	return '<  value="'
+																								+ $(
+																										'<div/>')
+																										.text(
+																												data)
+																										.html()
+																								+ '">';
+																					}
+																				} ]
+
+																			});
 																
 																$.each(resp,function(index,value) {
 
+																	
+																	alert('function(index,value)');
 																					var obj = jQuery.parseJSON(value);
 
 																					var results = "\""
@@ -146,25 +185,26 @@
 																							+ value
 																							+ "]}"
 																							+ ",";
+																					
+																					dataTable.row.add([
 
-																					dataTable.row
-																							.add([
-
-																								obj.FILE_NAME,
-																								obj.UTILITY_NAME,
-																								obj.UTILITY_CODE,
-																								obj.MMS_TYPE,
-																								obj.MANDATE_COUNT,
-																								obj.DATA_ENTRY_PENDING_STATUS,
-																								obj.PENDING_VERIFICATION_QUEUE,
-																								obj.SENDBACK_DATA_ENTRY_PENDING,
-																								obj.PENDING_VERIFICATION,
-																								obj.SENBACK_BACK_FOR_VERIFICATION,
-																								obj.VERIFIED,
-																								obj.REJECTED,
-																								obj.ACTION_PENDING,
-																							    obj.ACK_RECEVIED,
-																								obj.NACK_RECEIVED ]);
+																									obj.FILE_NAME,
+																									obj.UTILITY_NAME,
+																									obj.UTILITY_CODE,
+																									obj.MMS_TYPE,
+																									obj.MANDATE_COUNT,
+																									obj.DATA_ENTRY_PENDING_STATUS,
+																									obj.PENDING_VERIFICATION_QUEUE,
+																									obj.SENDBACK_DATA_ENTRY_PENDING,
+																									obj.PENDING_VERIFICATION,
+																									obj.SENBACK_BACK_FOR_VERIFICATION,
+																									obj.VERIFIED,
+																									obj.REJECTED,
+																									obj.ACTION_PENDING,
+																									obj.ACK_RECEVIED,
+																									obj.NACK_RECEIVED
+																									
+																									]);
 
 																				});
 
@@ -182,33 +222,39 @@
 																$("#overlay")
 																		.hide();
 
-															},
-															error : function(jqXHR,
+															} 
+															
+                                                     
+                                                      ,
+															error : function(
+																	jqXHR,
 																	textStatus,
 																	errorThrown) {
-                                                                  alert("Data Not Found");
+																alert("Data Not Found");
 															},
 															cache : false
+															
+															
+															
 
 														});
 
 											}
 
 										});
-						
-						
-						
 
-					$('#utility_name')
+						$('#utility_name')
 								.change(
 										function() {
-											$('#utility_code').find('option').remove();
+											$('#utility_code').find('option')
+													.remove();
 											$('#utility_code')
 													.append(
 															'<option>Select Utility Code</option>');
 
 											let utility_name = $(
 													'#utility_name').val();
+
 											console.log('utility_name:'
 													+ utility_name);
 											let data = {
@@ -235,9 +281,9 @@
 																					key,
 																					value) {
 																				$(
-																						'#utility_code')
+																						'#utility_code1')
 																						.append(
-																								'<option value="' + value.CDTR_AGNT_NAME + '">'
+																								'<option value="' + value.CDTR_ACCT_NO + '">'
 																										+ value.CDTR_ACCT_NO
 																										+ '</option>')
 																			});
@@ -254,39 +300,7 @@
 														cache : false
 													});
 										});
-						//added 23112022
-/* 						$('#utility_code')
-								.change(
-										function() {
-
-											let utility_code = $(
-													'#utility_code').val();
-											let data = {
-												operation : "getEmailId",
-												utility_code : utility_code
-											};
-
-											$
-													.ajax({
-														url : "GetMandateDashboardController",
-														method : "POST",
-														data : data,
-														success : function(data) {
-															console.log('data:'
-																	+ data);
-															$("#email_id").val(
-																	data);
-
-														},
-														error : function(jqXHR,
-																textStatus,
-																errorThrown) {
-
-														},
-														cache : false
-													});
-										}); */
-
+						
 					});
 </script>
 
@@ -300,20 +314,19 @@
 	<form id="sampleUploadFrm" method="POST" action="#">
 		<div class="form-group">
 			<label for="From Date">Date:</label> <input type="date" id="To_date"
-				width:50px name="To_date"> 
-				
-			<label for="utility name">Utility Name:</label> 
-				<select id="utility_name" name="utility_name">
-			<option>Select Utility Name</option> </select> 
-			
-			<label for="utility code">Utility Code:</label> 
-			<select id="utility_code" name="utility_code">
+				width:50px name="To_date"> <label for="utility name">Utility
+				Name:</label> <select id="utility_name" name="utility_name">
+				<option>Select Utility Name</option>
+			</select> <label for="utility code">Utility Code:</label> <select
+				id="utility_code1" name="utility_code1">
 				<option>Select Utility Code</option>
 			</select>
 
 			<button type="button" class="btn btn-primary pull-right"
 				id="uploadBtn">Submit</button>
+
 		</div>
+
 		<table id="example" class="table table-striped table-bordered"
 			style="width: 100%">
 			<thead>

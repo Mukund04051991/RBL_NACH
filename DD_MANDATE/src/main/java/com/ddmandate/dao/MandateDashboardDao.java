@@ -260,7 +260,7 @@ public class MandateDashboardDao {
 
 			System.out.println("<<<< JSONArray >>>>");
 			
-			if (rstemp.next() && rstemp != null) {
+			while (rstemp.next() && rstemp != null) {
 
 				System.out.println("<<<< rstemp.next() >>>>");
 				obj = new JSONObject();
