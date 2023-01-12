@@ -9,83 +9,84 @@
 <%@page import="com.ddmandate.dao.MandateDashboardDao"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
-   
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>File Upload Example in JSP and Servlet - Java web application</title>
+<title>File Upload Example in JSP and Servlet - Java web
+	application</title>
 
-	
+
 <!-- bootstrap link is added -->
-       
-       <!--css  -->
-      <link rel="stylesheet" href="assets/css/jquery.dataTables.min.css"> 
-      <link rel="stylesheet" href="assets/css/buttons.dataTables.min.css">
-      
-      
-      <!--js  -->
-      <script type="text/javascript" src ="assets/js/jquery-3.5.1.js"></script>
-      <script type="text/javascript" src ="assets/js/dataTables.bootstrap4.min.js"></script>
-      <script type="text/javascript" src ="assets/js/jquery.dataTables.min.js"></script>
-      
+
+<!--css  -->
+<link rel="stylesheet" href="assets/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="assets/css/buttons.dataTables.min.css">
+
+
+<!--js  -->
+<script type="text/javascript" src="assets/js/jquery-3.5.1.js"></script>
+<script type="text/javascript"
+	src="assets/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
+
 <!-- bootstrap link is ended -->
 
 <style>
 #myTable {
-  border-collapse: collapse; /* Collapse borders */
-  width: 100%; /* Full-width */
-  border: 1px solid #ddd; /* Add a grey border */
-  font-size: 18px; /* Increase font-size */
+	border-collapse: collapse; /* Collapse borders */
+	width: 100%; /* Full-width */
+	border: 1px solid #ddd; /* Add a grey border */
+	font-size: 18px; /* Increase font-size */
 }
 
 #myTable th, #myTable td {
-  text-align: left; /* Left-align text */
-  padding: 12px; /* Add padding */
+	text-align: left; /* Left-align text */
+	padding: 12px; /* Add padding */
 }
 
 #myTable tr {
-  /* Add a bottom border to all table rows */
-  border-bottom: 1px solid #ddd;
+	/* Add a bottom border to all table rows */
+	border-bottom: 1px solid #ddd;
 }
 
 #myTable tr.header, #myTable tr:hover {
-  /* Add a grey background color to the table header and on hover */
-  background-color: #f1f1f1;
+	/* Add a grey background color to the table header and on hover */
+	background-color: #f1f1f1;
 }
+
 .header_part {
-   /* background:#000000; */
-   font-size:150%;
-   color:#000000;
-   padding:15px 100px;
-   top:0;
-   width:100%;
-   text-align:center;
-   z-index:;
-  }
-  
- .space {
-  width: 100px;
-  height: auto;
-  display: inline-block;
+	/* background:#000000; */
+	font-size: 150%;
+	color: #000000;
+	padding: 15px 100px;
+	top: 0;
+	width: 100%;
+	text-align: center;
+	z-index:;
+}
+
+.space {
+	width: 100px;
+	height: auto;
+	display: inline-block;
 }
 
 .space1 {
-  width: 50px;
-  height: auto;
-  display: inline-block;
+	width: 50px;
+	height: auto;
+	display: inline-block;
 }
 </style>
 
 <script type="text/javascript">
-
-$(document).ready(function () {
-    $('#example').DataTable();
-});
-
+	$(document).ready(function() {
+		$('#example').DataTable();
+	});
 </script>
-	
-	
-	
+
+
+
 <style type="text/css">
 #3 {margin-top = 10px;
 	
@@ -95,37 +96,6 @@ $(document).ready(function () {
 	
 }
 </style>
-
-
-<%-- <%
-System.out.println("loading....");
-DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
-LocalDateTime now = LocalDateTime.now();  
-
-String DT = dtf.format(now);
-
-System.out.println("DT"+DT);
-
-String To_date = request.getParameter("To_date") == null ? DT : request.getParameter("To_date");
-System.out.println("To_date"+To_date);
-
-String utility_name = request.getParameter("utility_name") == null ? "" : request.getParameter("utility_name");
-System.out.println("utility_name"+utility_name);
-
-String utility_code1 = request.getParameter("utility_code1") == null ? "" : request.getParameter("utility_code1");
-System.out.println("utility_code1"+utility_code1);
-
-List<UtilityDetails> getUmrnList = new ArrayList<UtilityDetails>();
-MandateDashboardDao ud = new MandateDashboardDao();
-getUmrnList = ud.getUmrnDetails(To_date, utility_name, utility_code1);
-for (UtilityDetails b : getUmrnList) {
-	System.out.println();
-}
-%>
- --%>
-
-
-
 
 
 
@@ -170,10 +140,12 @@ for (UtilityDetails b : getUmrnList) {
 									cache : false
 								});
 
-						 $("#uploadBtn")
+						$("#uploadBtn")
 								.click(
 										function(e) {
 											e.preventDefault();
+											var dataTable = $('#example')
+													.DataTable();
 											var utility_name = $(
 													'#utility_name').val();
 											console.log('utility_name:'
@@ -183,7 +155,7 @@ for (UtilityDetails b : getUmrnList) {
 													'#utility_code1').val();
 											console.log('utility_code1:'
 													+ utility_code1);
-										
+
 											var To_date = $('#To_date').val();
 											console.log('To_date:' + To_date);
 
@@ -200,6 +172,7 @@ for (UtilityDetails b : getUmrnList) {
 
 												$('#example').dataTable()
 														.fnDestroy();
+												//dataTable.clear().draw();
 
 												alert("utility_name:"
 														+ utility_name);
@@ -228,6 +201,10 @@ for (UtilityDetails b : getUmrnList) {
 																//var fragment = "";
 																var exceldata = "";
 																//var exceld = "";
+																
+																
+															
+																
 
 																dataTable = $(
 																		'#example')
@@ -238,8 +215,8 @@ for (UtilityDetails b : getUmrnList) {
 																					columnDefs : [ {
 																						orderable : false,
 																						//className : 'select-checkbox',
-																						"defaultContent": "-",
-																						"targets": "_all",
+
+																						//		"targets" : "_all",
 																						"data" : "array",
 																						'render' : function(
 																								data,
@@ -248,13 +225,14 @@ for (UtilityDetails b : getUmrnList) {
 																								meta)
 
 																						{
-																							return ;
+																							return;
 																						}
 																					} ]
 
 																				});
 
-																$.each(
+																$
+																		.each(
 																				resp,
 																				function(
 																						index,
@@ -263,17 +241,11 @@ for (UtilityDetails b : getUmrnList) {
 																					alert('function(index,value)');
 																					var obj = jQuery
 																							.parseJSON(value);
+																					console
+																							.log('obj:'
+																									+ obj.MANDATE_TYPE);
 
-																					var results = "\""
-																							+ "results"
-																							+ "\"";
-																					exceldata += "{"
-																							+ results
-																							+ ":"
-																							+ "["
-																							+ value
-																							+ "]}"
-																							+ ",";
+																					
 
 																					dataTable.row
 																							.add([
@@ -282,7 +254,7 @@ for (UtilityDetails b : getUmrnList) {
 																									obj.UTILITY_NAME,
 																									obj.UTILITY_CODE,
 																									obj.MMS_TYPE,
-																									obj.MANDATE_COUNT,
+																									obj.MANDATE_TYPE,
 																									obj.DATA_ENTRY_PENDING_STATUS,
 																									obj.PENDING_VERIFICATION_QUEUE,
 																									obj.SENDBACK_DATA_ENTRY_PENDING,
@@ -297,7 +269,8 @@ for (UtilityDetails b : getUmrnList) {
 																							]);
 
 																				});
-																dataTable.draw();
+																dataTable
+																		.draw();
 																exceldata = exceldata
 																		.replace(
 																				/,\s*$/,
@@ -311,6 +284,13 @@ for (UtilityDetails b : getUmrnList) {
 																		.draw();
 																$("#overlay")
 																		.hide();
+																
+																
+																$('#result').html(
+																		result);
+																dataTable.clear()
+																		.draw();
+																loaddata();
 
 															}
 
@@ -396,55 +376,56 @@ for (UtilityDetails b : getUmrnList) {
 
 <body>
 
-	<h3>MANDATE DASHBOARD</h3>
-	
+
+
 	<form id="sampleUploadFrm" method="POST" action="#">
 		<div class="form-group">
-		
-			<label for="From Date">Date:</label>
-			 <input type="date" id="To_date"
-				width:50px name="To_date"> 
-				
-				<label for="utility name">Utility
-				Name:</label> <select id="utility_name" name="utility_name">
-				<option>Select Utility Name</option>
-			</select> <label for="utility code">Utility Code:</label> <select
-				id="utility_code1" name="utility_code1">
-				<option>Select Utility Code</option>
-			</select>
 
-			 <button type="button" class="btn btn-primary pull-right"
-				id="uploadBtn">Submit</button> 
-				
+			<center>
+
+				<h3>MANDATE DASHBOARD</h3>
+				<label for="From Date">Date:</label> <input type="date" id="To_date"
+					width:50px name="To_date"> <label for="utility name">Utility
+					Name:</label> <select id="utility_name" name="utility_name">
+					<option>Select Utility Name</option>
+				</select> <label for="utility code">Utility Code:</label> <select
+					id="utility_code1" name="utility_code1">
+					<option>Select Utility Code</option>
+				</select>
+
+				<button type="button" class="btn btn-primary pull-right"
+					id="uploadBtn">Submit</button>
+
 				<!-- <input type="submit" value="Submit"> -->
 
-
+			</center>
 
 		</div>
 
-		<table id="example" class="table table-striped table-bordered" style="width:100%">
-        <thead>
-            <tr>
-            
-                                    <th bgcolor="#000000" style="color:#ffffff">FILE NAME</th>
-                                    <th bgcolor="#000000" style="color:#ffffff">UTILITY NAME</th>
-									<th bgcolor="#000000" style="color:#ffffff">UTILITY CODE</th>
-									<th bgcolor="#000000" style="color:#ffffff">MANDATE TYPE</th>
-									<th bgcolor="#000000" style="color:#ffffff">MANDATES</th>
-									<th bgcolor="#000000" style="color:#ffffff" >DATA ENTRY PENDING</th>
-									<th bgcolor="#000000" style="color:#ffffff">PENDING FOR VERIFICATION</th>
-									<th bgcolor="#000000" style="color:#ffffff">SENDBACK DATA ENTRY PENDING</th>
-									<th bgcolor="#000000" style="color:#ffffff">SENDBACK VERIFICATION PENDING</th>
-									<th bgcolor="#000000" style="color:#ffffff">VERIFIED</th>
-									<th bgcolor="#000000" style="color:#ffffff">REJECTED</th>
-									<th bgcolor="#000000" style="color:#ffffff">ACTION PENDING</th>
-									<th bgcolor="#000000" style="color:#ffffff">ACK RECEIVED</th>
-									<th bgcolor="#000000" style="color:#ffffff">NACK RECEIVED</th>
-									
-                
-            </tr>
-        </thead>
-        <tbody>
+		<table id="example" class="table table-striped table-bordered"
+			style="width: 100%">
+			<thead>
+				<tr>
+
+					<th bgcolor="#000000" style="color: #ffffff">FILE NAME</th>
+					<th bgcolor="#000000" style="color: #ffffff">UTILITY NAME</th>
+					<th bgcolor="#000000" style="color: #ffffff">UTILITY CODE</th>
+					<th bgcolor="#000000" style="color: #ffffff">MANDATE TYPE</th>
+					<th bgcolor="#000000" style="color: #ffffff">MANDATES</th>
+					<th bgcolor="#000000" style="color: #ffffff">DATA ENTRY PENDING</th>
+					<th bgcolor="#000000" style="color: #ffffff">PENDING FOR VERIFICATION</th>
+					<th bgcolor="#000000" style="color: #ffffff">SENDBACK DATA ENTRY PENDING</th>
+					<th bgcolor="#000000" style="color: #ffffff">SENDBACK VERIFICATION PENDING</th>
+					<th bgcolor="#000000" style="color: #ffffff">VERIFIED</th>
+					<th bgcolor="#000000" style="color: #ffffff">REJECTED</th>
+					<th bgcolor="#000000" style="color: #ffffff">ACTION PENDING</th>
+					<th bgcolor="#000000" style="color: #ffffff">ACK RECEIVED</th>
+					<th bgcolor="#000000" style="color: #ffffff">NACK RECEIVED</th>
+
+
+				</tr>
+			</thead>
+			<tbody>
 				<%-- <%
 				for (UtilityDetails CM : getUmrnList) {
 				%>
@@ -469,9 +450,9 @@ for (UtilityDetails b : getUmrnList) {
 				<%
 				}
 				%>
- --%>			
-		</tbody>
-            </table>
+ --%>
+			</tbody>
+		</table>
 
 
 

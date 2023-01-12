@@ -96,15 +96,17 @@ public class MandateDashboardDao {
 
 	
 	public JSONArray getMandateDetails(String utility_name, String utility_code,
-			 String to_date) { ResultSet rstemp=null;
+			 String to_date) { 
+		      ResultSet rstemp=null;
 			  System.out.println("<<< JSONArray getMandateDetails >>>");
 			  System.out.println("utility_name:" + utility_name);
 			  System.out.println("utility_code:" + utility_code);
 			  System.out.println("to_date:" + to_date);
 			 
-			  int count = 0;
 			 
-			  JSONObject obj = null; JSONArray array = null; try {
+			  JSONObject obj = null;
+			  JSONArray array = null; 
+			  try {
 			  
 			  con = MandateDashboardDao.getConnection();
 			  
@@ -276,21 +278,21 @@ public class MandateDashboardDao {
 			  }
 			  
 			  while (rs1.next() && rs1 != null) {
-				  obj = new JSONObject();
+				 // obj = new JSONObject();
 			  
 			  obj.put("MANDATE_TYPE", rs1.getString("MANDATE_COUNT"));
 			  
 			  }
 			  
 			  while (rs2.next() && rs2 != null) { 
-				  obj = new JSONObject();
+				  //obj = new JSONObject();
 			  
 			  obj.put("DATA_ENTRY_PENDING_STATUS",rs2.getString("DATA_ENTRY_PENDING_STATUS"));
 			  
 			  }
 			  
 			  while (rs3.next() && rs3 != null) { 
-				  obj = new JSONObject();
+				  //obj = new JSONObject();
 			  
 			  obj.put("PENDING_VERIFICATION_QUEUE", rs3.getString("PENDING_VERIFICATION_QUEUE"));
 			  
@@ -298,8 +300,7 @@ public class MandateDashboardDao {
 			  
 			  while (rs4.next() && rs4 != null) { obj = new JSONObject();
 			  
-			  obj.put("SENDBACK_DATA_ENTRY_PENDING",
-			  rs4.getString("SENDBACK_DATA_ENTRY_PENDING"));
+			  obj.put("SENDBACK_DATA_ENTRY_PENDING", rs4.getString("SENDBACK_DATA_ENTRY_PENDING"));
 			  
 			  }
 			  
@@ -311,8 +312,7 @@ public class MandateDashboardDao {
 			  
 			  while (rs6.next() && rs6 != null) { obj = new JSONObject();
 			  
-			  obj.put("SENBACK_BACK_FOR_VERIFICATION",
-			  rs6.getString("SENBACK_BACK_FOR_VERIFICATION"));
+			  obj.put("SENBACK_BACK_FOR_VERIFICATION", rs6.getString("SENBACK_BACK_FOR_VERIFICATION"));
 			  
 			  }
 			  
@@ -322,25 +322,26 @@ public class MandateDashboardDao {
 			  
 			  }
 			  
-			  while (rs8.next() && rs8 != null) { obj = new JSONObject();
+			  while (rs8.next() && rs8 != null) { 
+				  
 			  
 			  obj.put("REJECTED", rs8.getString("REJECTED"));
 			  
 			  }
 			  
-			  while (rs9.next() && rs9 != null) { obj = new JSONObject();
+			  while (rs9.next() && rs9 != null) { 
 			  
 			  obj.put("ACTION_PENDING", rs9.getString("ACTION_PENDING"));
 			  
 			  }
 			  
-			  while (rs10.next() && rs10 != null) { obj = new JSONObject();
+			  while (rs10.next() && rs10 != null) { 
 			  
 			  obj.put("ACK_RECEIVED", rs10.getString("ACK_RECEVIED"));
 			  
 			  }
 			  
-			  while (rs11.next() && rs11 != null) { obj = new JSONObject();
+			  while (rs11.next() && rs11 != null) { 
 			  
 			  obj.put("NACK_RECEIVED", rs11.getString("NACK_RECEIVED"));
 			  
