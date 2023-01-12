@@ -57,12 +57,22 @@ public class MandateDashboardController extends HttpServlet {
 		String To_date = request.getParameter("To_date");
 		System.out.println("To_date"+To_date);
 		
-		array = dao.getMandateDetails(utility_name,utility_code,To_date);;
-
-		System.out.println("array:" + array);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        out.print(array);
+		
+		
+		/*
+		 * dao.getUmrnDetails(To_date,utility_name,utility_code); RequestDispatcher rd =
+		 * request.getRequestDispatcher("/MandateDashboard.jsp"); rd.forward(request,
+		 * response);
+		 */
+		
+		
+		
+		  array = dao.getMandateDetails(utility_name,utility_code,To_date);;
+		 
+		  System.out.println("array:" + array);
+		  response.setContentType("application/json");
+		  response.setCharacterEncoding("utf-8"); out.print(array);
+		 
 		
 		
 		

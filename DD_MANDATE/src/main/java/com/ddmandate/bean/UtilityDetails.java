@@ -21,110 +21,128 @@ public class UtilityDetails {
 	private String ACTION_PENDING;
 	private String ACK_RECEVIED;
 	private String NACK_RECEIVED;
+	private String BATCH_ID;
+	public String getBATCH_ID() {
+		return BATCH_ID;
+	}
+
+	public String setBATCH_ID(String bATCH_ID) {
+		return BATCH_ID = bATCH_ID;
+	}
+
+	public String getMMS_TYPE() {
+		return MMS_TYPE;
+	}
+
+	public String setMMS_TYPE(String mMS_TYPE) {
+		return MMS_TYPE = mMS_TYPE;
+	}
+
+	private String MMS_TYPE;
 	
 	
 	public String getPENDING_VERIFICATION_QUEUE() {
 		return PENDING_VERIFICATION_QUEUE;
 	}
 
-	public void setPENDING_VERIFICATION_QUEUE(String pENDING_VERIFICATION_QUEUE) {
-		PENDING_VERIFICATION_QUEUE = pENDING_VERIFICATION_QUEUE;
+	public String setPENDING_VERIFICATION_QUEUE(String pENDING_VERIFICATION_QUEUE) {
+		return PENDING_VERIFICATION_QUEUE = pENDING_VERIFICATION_QUEUE;
 	}
 
 	public String getSENDBACK_DATA_ENTRY_PENDING() {
 		return SENDBACK_DATA_ENTRY_PENDING;
 	}
 
-	public void setSENDBACK_DATA_ENTRY_PENDING(String sENDBACK_DATA_ENTRY_PENDING) {
-		SENDBACK_DATA_ENTRY_PENDING = sENDBACK_DATA_ENTRY_PENDING;
+	public String setSENDBACK_DATA_ENTRY_PENDING(String sENDBACK_DATA_ENTRY_PENDING) {
+		return SENDBACK_DATA_ENTRY_PENDING = sENDBACK_DATA_ENTRY_PENDING;
 	}
 
 	public String getPENDING_VERIFICATION() {
 		return PENDING_VERIFICATION;
 	}
 
-	public void setPENDING_VERIFICATION(String pENDING_VERIFICATION) {
-		PENDING_VERIFICATION = pENDING_VERIFICATION;
+	public String setPENDING_VERIFICATION(String pENDING_VERIFICATION) {
+		return PENDING_VERIFICATION = pENDING_VERIFICATION;
 	}
 
 	public String getSENBACK_BACK_FOR_VERIFICATION() {
 		return SENBACK_BACK_FOR_VERIFICATION;
 	}
 
-	public void setSENBACK_BACK_FOR_VERIFICATION(String sENBACK_BACK_FOR_VERIFICATION) {
-		SENBACK_BACK_FOR_VERIFICATION = sENBACK_BACK_FOR_VERIFICATION;
+	public String setSENBACK_BACK_FOR_VERIFICATION(String sENBACK_BACK_FOR_VERIFICATION) {
+		return SENBACK_BACK_FOR_VERIFICATION = sENBACK_BACK_FOR_VERIFICATION;
 	}
 
 	public String getVERIFIED() {
 		return VERIFIED;
 	}
 
-	public void setVERIFIED(String vERIFIED) {
-		VERIFIED = vERIFIED;
+	public String setVERIFIED(String vERIFIED) {
+		return VERIFIED = vERIFIED;
 	}
 
 	public String getREJECTED() {
 		return REJECTED;
 	}
 
-	public void setREJECTED(String rEJECTED) {
-		REJECTED = rEJECTED;
+	public String setREJECTED(String rEJECTED) {
+		return REJECTED = rEJECTED;
 	}
 
 	public String getACTION_PENDING() {
 		return ACTION_PENDING;
 	}
 
-	public void setACTION_PENDING(String aCTION_PENDING) {
-		ACTION_PENDING = aCTION_PENDING;
+	public String setACTION_PENDING(String aCTION_PENDING) {
+		return ACTION_PENDING = aCTION_PENDING;
 	}
 
 	public String getACK_RECEVIED() {
 		return ACK_RECEVIED;
 	}
 
-	public void setACK_RECEVIED(String aCK_RECEVIED) {
-		ACK_RECEVIED = aCK_RECEVIED;
+	public String setACK_RECEVIED(String aCK_RECEVIED) {
+		return ACK_RECEVIED = aCK_RECEVIED;
 	}
 
 	public String getNACK_RECEIVED() {
 		return NACK_RECEIVED;
 	}
 
-	public void setNACK_RECEIVED(String nACK_RECEIVED) {
-		NACK_RECEIVED = nACK_RECEIVED;
+	public String setNACK_RECEIVED(String nACK_RECEIVED) {
+		return NACK_RECEIVED = nACK_RECEIVED;
 	}
 
 	public String getMANDATE_COUNT() {
 		return MANDATE_COUNT;
 	}
 
-	public void setMANDATE_COUNT(String mANDATE_COUNT) {
-		MANDATE_COUNT = mANDATE_COUNT;
+	public String setMANDATE_COUNT(String mANDATE_COUNT) {
+		return MANDATE_COUNT = mANDATE_COUNT;
 	}
 
 	public String getDATA_ENTRY_PENDING_STATUS() {
 		return DATA_ENTRY_PENDING_STATUS;
 	}
 
-	public void setDATA_ENTRY_PENDING_STATUS(String dATA_ENTRY_PENDING_STATUS) {
-		DATA_ENTRY_PENDING_STATUS = dATA_ENTRY_PENDING_STATUS;
+	public String setDATA_ENTRY_PENDING_STATUS(String dATA_ENTRY_PENDING_STATUS) {
+		return DATA_ENTRY_PENDING_STATUS = dATA_ENTRY_PENDING_STATUS;
 	}
 
 	public String getCDTR_ACCT_NO() {
 		return CDTR_ACCT_NO;
 	}
 
-	public void setCDTR_ACCT_NO(String cDTR_ACCT_NO) {
-		CDTR_ACCT_NO = cDTR_ACCT_NO;
+	public String setCDTR_ACCT_NO(String cDTR_ACCT_NO) {
+		return CDTR_ACCT_NO = cDTR_ACCT_NO;
 	}
 
 	public String getCDTR_AGNT_NAME() {
 		return CDTR_AGNT_NAME;
 	}
 
-	public void setCDTR_AGNT_NAME(String cDTR_AGNT_NAME) {
-		CDTR_AGNT_NAME = cDTR_AGNT_NAME;
+	public String setCDTR_AGNT_NAME(String cDTR_AGNT_NAME) {
+		return CDTR_AGNT_NAME = cDTR_AGNT_NAME;
 	}
 
 	public String getUtility_name() {
@@ -150,5 +168,7 @@ public class UtilityDetails {
 	public void setEmail_id(String email_id) {
 		this.email_id = email_id;
 	}
+
+	
 
 }

@@ -1,14 +1,91 @@
+<%@page import="org.apache.poi.util.SystemOutLogger"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
+
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
+<%@page import="com.ddmandate.bean.UtilityDetails"%>
+<%@page import="com.ddmandate.dao.MandateDashboardDao"%>
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalDateTime"%>
+   
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>File Upload Example in JSP and Servlet - Java web
-	application</title>
+<title>File Upload Example in JSP and Servlet - Java web application</title>
 
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	
+<!-- bootstrap link is added -->
+       
+       <!--css  -->
+      <link rel="stylesheet" href="assets/css/jquery.dataTables.min.css"> 
+      <link rel="stylesheet" href="assets/css/buttons.dataTables.min.css">
+      
+      
+      <!--js  -->
+      <script type="text/javascript" src ="assets/js/jquery-3.5.1.js"></script>
+      <script type="text/javascript" src ="assets/js/dataTables.bootstrap4.min.js"></script>
+      <script type="text/javascript" src ="assets/js/jquery.dataTables.min.js"></script>
+      
+<!-- bootstrap link is ended -->
+
+<style>
+#myTable {
+  border-collapse: collapse; /* Collapse borders */
+  width: 100%; /* Full-width */
+  border: 1px solid #ddd; /* Add a grey border */
+  font-size: 18px; /* Increase font-size */
+}
+
+#myTable th, #myTable td {
+  text-align: left; /* Left-align text */
+  padding: 12px; /* Add padding */
+}
+
+#myTable tr {
+  /* Add a bottom border to all table rows */
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  /* Add a grey background color to the table header and on hover */
+  background-color: #f1f1f1;
+}
+.header_part {
+   /* background:#000000; */
+   font-size:150%;
+   color:#000000;
+   padding:15px 100px;
+   top:0;
+   width:100%;
+   text-align:center;
+   z-index:;
+  }
+  
+ .space {
+  width: 100px;
+  height: auto;
+  display: inline-block;
+}
+
+.space1 {
+  width: 50px;
+  height: auto;
+  display: inline-block;
+}
+</style>
+
+<script type="text/javascript">
+
+$(document).ready(function () {
+    $('#example').DataTable();
+});
+
+</script>
+	
+	
+	
 <style type="text/css">
 #3 {margin-top = 10px;
 	
@@ -19,23 +96,37 @@
 }
 </style>
 
-<!-- bootstrap link is added -->
 
-<!--css  -->
-<link rel="stylesheet" href="assets/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="assets/css/buttons.dataTables.min.css">
-<!--js  -->
-<script type="text/javascript" src="assets/js/jquery-3.5.1.js"></script>
-<script type="text/javascript"
-	src="assets/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="assets/js/jquery.dataTables.min.js"></script>
+<%-- <%
+System.out.println("loading....");
+DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");  
+LocalDateTime now = LocalDateTime.now();  
 
-<!-- bootstrap link is ended -->
-<script type="text/javascript">
-	$(document).ready(function() {
-		$('#example').DataTable();
-	});
-</script>
+String DT = dtf.format(now);
+
+System.out.println("DT"+DT);
+
+String To_date = request.getParameter("To_date") == null ? DT : request.getParameter("To_date");
+System.out.println("To_date"+To_date);
+
+String utility_name = request.getParameter("utility_name") == null ? "" : request.getParameter("utility_name");
+System.out.println("utility_name"+utility_name);
+
+String utility_code1 = request.getParameter("utility_code1") == null ? "" : request.getParameter("utility_code1");
+System.out.println("utility_code1"+utility_code1);
+
+List<UtilityDetails> getUmrnList = new ArrayList<UtilityDetails>();
+MandateDashboardDao ud = new MandateDashboardDao();
+getUmrnList = ud.getUmrnDetails(To_date, utility_name, utility_code1);
+for (UtilityDetails b : getUmrnList) {
+	System.out.println();
+}
+%>
+ --%>
+
+
+
+
 
 
 <script>
@@ -79,7 +170,7 @@
 									cache : false
 								});
 
-						$("#uploadBtn")
+						 $("#uploadBtn")
 								.click(
 										function(e) {
 											e.preventDefault();
@@ -92,7 +183,7 @@
 													'#utility_code1').val();
 											console.log('utility_code1:'
 													+ utility_code1);
-											/* utility_code */
+										
 											var To_date = $('#To_date').val();
 											console.log('To_date:' + To_date);
 
@@ -116,64 +207,62 @@
 														+ utility_code);
 												alert("To_date:" + To_date);
 
-												$.ajax({
+												$
+														.ajax({
 															type : "POST",
 															url : "MandateDashboardController",
 															data : {
 																"utility_name" : utility_name,
 																"utility_code" : utility_code,
 																"To_date" : To_date
-                                                      },
-															
-                                                      
-															
+															},
+
 															dataType : "json",
-															
+
 															success : function(
 																	resp) {
 
 																//$("#example").dataTable({
 																//dataTable.clear().draw();
-																
+
 																//var fragment = "";
 																var exceldata = "";
 																//var exceld = "";
-						
-																
+
 																dataTable = $(
-																	'#example')
-																	.DataTable(
-																			{
-																				dom : 'Bfrtip',
-																				buttons : [ 'colvis' ],
-																				columnDefs : [ {
-																					orderable : false,
-																					//className : 'select-checkbox',
-																					targets : 0,
-																					'render' : function(
-																							data,
-																							type,
-																							full,
-																							meta) 
-																							
-																							{
-									                            	return '<  value="'
-																								+ $(
-																										'<div/>')
-																										.text(
-																												data)
-																										.html()
-																								+ '">';
-																					}
-																				} ]
+																		'#example')
+																		.DataTable(
+																				{
+																					dom : 'Bfrtip',
+																					buttons : [ 'colvis' ],
+																					columnDefs : [ {
+																						orderable : false,
+																						//className : 'select-checkbox',
+																						"defaultContent": "-",
+																						"targets": "_all",
+																						"data" : "array",
+																						'render' : function(
+																								data,
+																								type,
+																								full,
+																								meta)
 
-																			});
-																
-																$.each(resp,function(index,value) {
+																						{
+																							return ;
+																						}
+																					} ]
 
-																	
-																	alert('function(index,value)');
-																					var obj = jQuery.parseJSON(value);
+																				});
+
+																$.each(
+																				resp,
+																				function(
+																						index,
+																						value) {
+
+																					alert('function(index,value)');
+																					var obj = jQuery
+																							.parseJSON(value);
 
 																					var results = "\""
 																							+ "results"
@@ -185,8 +274,9 @@
 																							+ value
 																							+ "]}"
 																							+ ",";
-																					
-																					dataTable.row.add([
+
+																					dataTable.row
+																							.add([
 
 																									obj.FILE_NAME,
 																									obj.UTILITY_NAME,
@@ -203,11 +293,11 @@
 																									obj.ACTION_PENDING,
 																									obj.ACK_RECEVIED,
 																									obj.NACK_RECEIVED
-																									
-																									]);
+
+																							]);
 
 																				});
-
+																dataTable.draw();
 																exceldata = exceldata
 																		.replace(
 																				/,\s*$/,
@@ -222,10 +312,9 @@
 																$("#overlay")
 																		.hide();
 
-															} 
-															
-                                                     
-                                                      ,
+															}
+
+															,
 															error : function(
 																	jqXHR,
 																	textStatus,
@@ -233,9 +322,6 @@
 																alert("Data Not Found");
 															},
 															cache : false
-															
-															
-															
 
 														});
 
@@ -300,7 +386,7 @@
 														cache : false
 													});
 										});
-						
+
 					});
 </script>
 
@@ -311,10 +397,15 @@
 <body>
 
 	<h3>MANDATE DASHBOARD</h3>
+	
 	<form id="sampleUploadFrm" method="POST" action="#">
 		<div class="form-group">
-			<label for="From Date">Date:</label> <input type="date" id="To_date"
-				width:50px name="To_date"> <label for="utility name">Utility
+		
+			<label for="From Date">Date:</label>
+			 <input type="date" id="To_date"
+				width:50px name="To_date"> 
+				
+				<label for="utility name">Utility
 				Name:</label> <select id="utility_name" name="utility_name">
 				<option>Select Utility Name</option>
 			</select> <label for="utility code">Utility Code:</label> <select
@@ -322,77 +413,65 @@
 				<option>Select Utility Code</option>
 			</select>
 
-			<button type="button" class="btn btn-primary pull-right"
-				id="uploadBtn">Submit</button>
+			 <button type="button" class="btn btn-primary pull-right"
+				id="uploadBtn">Submit</button> 
+				
+				<!-- <input type="submit" value="Submit"> -->
+
+
 
 		</div>
 
-		<table id="example" class="table table-striped table-bordered"
-			style="width: 100%">
-			<thead>
-				<tr>
-					<th>FILE NAME</th>
-					<th>Utility Name</th>
-					<th>Utility Code</th>
-					<th>Mandate Type</th>
-					<th>Mandates</th>
-					<th>Data Entry Pending</th>
-					<th>Pending for Verification</th>
-					<th>Sendback Data Entry Pending</th>
-					<th>Sendback Verification Pending</th>
-					<th>Verified</th>
-					<th>Rejected</th>
-					<th>Action Pending</th>
-					<th>ACK Received</th>
-					<th>Nack Received</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- <tr>
-					<td>Tiger Nixon</td>
-					<td>System Architect</td>
-					<td>Edinburgh</td>
-					<td>61</td>
-					<td>2011-04-25</td>
-					<td>$320,800</td>
-					<td>Tiger Nixon</td>
-					<td>System Architect</td>
-					<td>Edinburgh</td>
-					<td>61</td>
-					<td>2011-04-25</td>
-					<td>$320,800</td>
-					<td>$320,800</td>
-					<td>$320,800</td>
-				</tr>
-				<tr>
-					<td>Garrett Winters</td>
-					<td>Accountant</td>
-					<td>Tokyo</td>
-					<td>63</td>
-					<td>2011-07-25</td>
-					<td>$170,750</td>
-					<td>Garrett Winters</td>
-					<td>Accountant</td>
-					<td>Tokyo</td>
-					<td>63</td>
-					<td>2011-07-25</td>
-					<td>$170,750</td>
-					<td>$170,750</td>
-					<td>$320,800</td>
-				</tr>
- -->
-			</tbody>
-			<!--  <tfoot>
+		<table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
             <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+            
+                                    <th bgcolor="#000000" style="color:#ffffff">FILE NAME</th>
+                                    <th bgcolor="#000000" style="color:#ffffff">UTILITY NAME</th>
+									<th bgcolor="#000000" style="color:#ffffff">UTILITY CODE</th>
+									<th bgcolor="#000000" style="color:#ffffff">MANDATE TYPE</th>
+									<th bgcolor="#000000" style="color:#ffffff">MANDATES</th>
+									<th bgcolor="#000000" style="color:#ffffff" >DATA ENTRY PENDING</th>
+									<th bgcolor="#000000" style="color:#ffffff">PENDING FOR VERIFICATION</th>
+									<th bgcolor="#000000" style="color:#ffffff">SENDBACK DATA ENTRY PENDING</th>
+									<th bgcolor="#000000" style="color:#ffffff">SENDBACK VERIFICATION PENDING</th>
+									<th bgcolor="#000000" style="color:#ffffff">VERIFIED</th>
+									<th bgcolor="#000000" style="color:#ffffff">REJECTED</th>
+									<th bgcolor="#000000" style="color:#ffffff">ACTION PENDING</th>
+									<th bgcolor="#000000" style="color:#ffffff">ACK RECEIVED</th>
+									<th bgcolor="#000000" style="color:#ffffff">NACK RECEIVED</th>
+									
+                
             </tr>
-        </tfoot> -->
-		</table>
+        </thead>
+        <tbody>
+				<%-- <%
+				for (UtilityDetails CM : getUmrnList) {
+				%>
+
+				<tr>
+					<th><%=CM.getBATCH_ID()%></th>
+					<th><%=CM.getCDTR_AGNT_NAME() == null ? "-" : CM.getCDTR_AGNT_NAME()%></th>
+					<th><%=CM.getCDTR_ACCT_NO() == null ? "-" : CM.getCDTR_ACCT_NO()%></th>
+					<th><%=CM.getMMS_TYPE() == null ? "-" : CM.getMMS_TYPE()%></th>
+					<th><%=CM.getMANDATE_COUNT() == null ? "-" : CM.getMANDATE_COUNT()%></th>
+					<th><%=CM.getDATA_ENTRY_PENDING_STATUS() == null ? "-" : CM.getDATA_ENTRY_PENDING_STATUS()%></th>
+					<th><%=CM.getPENDING_VERIFICATION_QUEUE() == null ? "-" : CM.getPENDING_VERIFICATION_QUEUE()%></th>
+					<th><%=CM.getSENDBACK_DATA_ENTRY_PENDING() == null ? "-" : CM.getSENDBACK_DATA_ENTRY_PENDING()%></th>
+					<th><%=CM.getSENBACK_BACK_FOR_VERIFICATION() == null ? "-" : CM.getSENBACK_BACK_FOR_VERIFICATION()%></th>
+					<th><%=CM.getVERIFIED() == null ? "-" : CM.getVERIFIED()%></th>
+					<th><%=CM.getREJECTED() == null ? "-" : CM.getREJECTED()%></th>
+					<th><%=CM.getACTION_PENDING() == null ? "-" : CM.getACTION_PENDING()%></th>
+					<th><%=CM.getACK_RECEVIED() == null ? "-" : CM.getACK_RECEVIED()%></th>
+					<th><%=CM.getNACK_RECEIVED() == null ? "-" : CM.getNACK_RECEIVED()%></th>
+					
+				</tr>
+				<%
+				}
+				%>
+ --%>			
+		</tbody>
+            </table>
 
 
 
